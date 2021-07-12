@@ -1,17 +1,26 @@
 import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 export default function InsertForm({ onAddItem }) {
   const [text, setText] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const newItem = { text };
-    // Save item to server
+    try {
+      await axios.post("http://localhost:4000/api/items", {
+        text,
+      });
+      setText("");
+      onAddItem();
+    } catch {
+      alert("texto inválido");
+    }
 
-    setText("");
-    onAddItem();
+
+
   }
 
   return (
